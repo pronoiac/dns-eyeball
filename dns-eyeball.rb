@@ -4,6 +4,8 @@ require "Resolv"
 require "byebug"
 require "net/http"
 
+HTTP_TIMEOUT = 5 # sec. 
+
 
 def print_dns_record(ress)
   ress.each do |record| 
@@ -25,10 +27,19 @@ def print_dns_record(ress)
 end # /print_status
 
 def show_http_header(host)
-  print "fetching HTTP headers: "
-  http = Net::HTTP.start(host)
+  print "fetching HTTP headers (#{HTTP_TIMEOUT} sec timeout): "
 
-  resp = http.head('/')
+  begin
+    http = Net::HTTP.start(
+      host,
+      open_timeout: HTTP_TIMEOUT,
+      read_timeout: HTTP_TIMEOUT)
+    resp = http.head('/')
+  rescue
+    puts "no response!"
+    return false
+  end
+  
   case resp.code.to_i
   when 200
     puts "200 OK"
@@ -50,7 +61,6 @@ rescue
   puts "couldn't look up google.com. exiting!"
   exit!
 end
-# byebug
 
 domain = ARGV[0] || "pronoiac.org"
 
