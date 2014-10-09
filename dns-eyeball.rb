@@ -35,5 +35,9 @@ def print_record(ress)
     puts ress.first.address
   else
     # record not recognized...
+    puts "Record not recognized: "
+    p ress.first
+    puts "more following:"
+    p ress
   end
 end # /print_status
