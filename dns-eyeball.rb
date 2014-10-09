@@ -9,12 +9,12 @@ def print_dns_record(ress)
   ress.each do |record| 
     case record
     when Resolv::DNS::Resource::IN::CNAME
-      puts "CNAME, points to..."
+      print "CNAME, points to: "
       p record.name
       puts "[ prettier: #{ress.first.name.to_s}#{ '.' if ress.first.name.absolute? } ]"
       return
     when Resolv::DNS::Resource::IN::A
-      puts "A, points to..."
+      print "A, points to: "
       puts record.address
       return
     else
@@ -25,7 +25,7 @@ def print_dns_record(ress)
 end # /print_status
 
 def show_http_header(host)
-  puts "fetching HTTP headers..."
+  print "fetching HTTP headers: "
   http = Net::HTTP.start(host)
 
   resp = http.head('/')
