@@ -4,7 +4,8 @@ require "Resolv"
 require "byebug"
 
 
-def print_record(ress)
+def print_dns_record(ress)
+  # byebug
   ress.each do |record| 
     case ress.first
     when Resolv::DNS::Resource::IN::CNAME
@@ -16,6 +17,8 @@ def print_record(ress)
       puts "A, points to..."
       puts ress.first.address
       return
+    else
+      # not recognized
     end
   end # /loop over records
 end # /print_status
@@ -42,7 +45,7 @@ Resolv::DNS.open do |dns|
     if ress.count == 0
       puts "No records returned!"
     else
-      print_record(ress)
+      print_dns_record(ress)
     end
   end # /host
 end # /main
