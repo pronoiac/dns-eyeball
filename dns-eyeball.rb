@@ -22,16 +22,21 @@ end # /print_status
 
 
 # die unless ARGV.length == 2
-puts "testing - google.com"
-p Resolv.getaddress "www.google.com"
+begin
+  Resolv.getaddress "www.google.com"
+rescue
+  puts "couldn't look up google.com. exiting!"
+  exit!
+end
+# byebug
 
 domain = ARGV[0] || "pronoiac.org"
 
 Resolv::DNS.open do |dns|
-  # [domain, "www." + domain].each do |host|
-  [domain].each do |host|
+  [domain, "www." + domain].each do |host|
 
-    puts "querying #{host}..."
+    puts
+    puts "== querying #{host}... =="
     ress = dns.getresources host, Resolv::DNS::Resource::IN::ANY
     
     if ress.count == 0
