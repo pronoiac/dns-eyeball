@@ -9,18 +9,10 @@ p Resolv.getaddress "www.google.com"
 
 domain = ARGV[0] || "pronoiac.org"
 
-# p Resolv.getaddress "www.ruby-lang.org"
-# p Resolv.getname "210.251.121.214"
-
 Resolv::DNS.open do |dns|
-  # ress = dns.getresources "www.ruby-lang.org", Resolv::DNS::Resource::IN::A
-  # p ress.map { |r| r.address }
-  # ress = dns.getresources "ruby-lang.org", Resolv::DNS::Resource::IN::MX
-  # p ress.map { |r| [r.exchange.to_s, r.preference] }
-  
+
   puts "querying #{domain}..."
   ress = dns.getresources domain, Resolv::DNS::Resource::IN::ANY
-  # byebug
   
   case ress.first
   when Resolv::DNS::Resource::IN::CNAME
@@ -35,5 +27,4 @@ Resolv::DNS.open do |dns|
     
   end
   
-  # byebug
 end
