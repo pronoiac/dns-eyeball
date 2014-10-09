@@ -14,10 +14,12 @@ def print_dns_record(ress)
       print "CNAME, points to: "
       p record.name
       puts "[ prettier: #{ress.first.name.to_s}#{ '.' if ress.first.name.absolute? } ]"
+      puts "(ttl: #{record.ttl})"
       return
     when Resolv::DNS::Resource::IN::A
       print "A, points to: "
-      puts record.address
+      print record.address
+      puts " (ttl: #{record.ttl})"
       return
     else
       # not recognized
@@ -27,7 +29,7 @@ def print_dns_record(ress)
 end # /print_status
 
 def show_http_header(host)
-  print "fetching HTTP headers (#{HTTP_TIMEOUT} sec timeout): "
+  print "fetching HTTP headers: "
 
   begin
     http = Net::HTTP.start(
@@ -36,7 +38,7 @@ def show_http_header(host)
       read_timeout: HTTP_TIMEOUT)
     resp = http.head('/')
   rescue
-    puts "no response!"
+    puts "no response! (#{HTTP_TIMEOUT} sec timeout)"
     return false
   end
   
