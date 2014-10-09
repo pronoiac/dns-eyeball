@@ -1,10 +1,12 @@
 I wanted a diagnostic tool for DNS! Also HTTP headers, to check for redirects. 
+It has no dependencies, just Ruby's built-in Resolv. 
 
-Run it: `./dns-eyeball.rb google.com`
+Run it: `ruby dns-eyeball.rb google.com` 
+(Or `chmod +x dns-eyeball.rb` then `./dns-eyeball.rb google.com`)
 
 
 ```
-$ ./dns-eyeball.rb pronoiac.org
+$ ruby dns-eyeball.rb pronoiac.org
 
 == querying pronoiac.org...
 A, points to...
