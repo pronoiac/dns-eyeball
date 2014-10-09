@@ -10,21 +10,21 @@ p Resolv.getaddress "www.google.com"
 domain = ARGV[0] || "pronoiac.org"
 
 Resolv::DNS.open do |dns|
+  [domain, "www." + domain].each do |host|
 
-  puts "querying #{domain}..."
-  ress = dns.getresources domain, Resolv::DNS::Resource::IN::ANY
-  
-  byebug
-  
-  print_record(ress)
+    puts "querying #{host}..."
+    ress = dns.getresources host, Resolv::DNS::Resource::IN::ANY
+    p ress
+    
+    if ress.count == 0
+      puts "No records returned!"
+    else
+      print_record(ress)
+    end
+  end # /host
 end # /main
 
 def print_record(ress)
-  if ress.count == 0
-    print "No records returned!"
-    return false
-  end
-  
   case ress.first
   when Resolv::DNS::Resource::IN::CNAME
     puts "CNAME, points to..."
